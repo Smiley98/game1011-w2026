@@ -33,5 +33,23 @@ int main()
 		std::cout << "You must rest, warrior..." << std::endl;
 	}
 
+	std::cout << std::endl << "Count by 1s from 0 to 9" << std::endl;
+	for (int i = 0; i < 10; i++)
+	{
+		std::cout << "i is " << i << std::endl;
+	}
+
+	std::cout << std::endl << "Count by 2s from 0 to 8" << std::endl;
+	for (int i = 0; i < 10; i += 2)
+	{
+		std::cout << "i is " << i << std::endl;
+	}
+
+	std::cout << std::endl << "Count in powers of 2 from 0 to 8" << std::endl;
+	for (int i = 1; i < 10; i *= 2)
+	{
+		std::cout << "i is " << i << std::endl;
+	}
+
 	return 0;
 }
