@@ -1,7 +1,26 @@
 #include <iostream>
 #include <string>
 
+void Example1();
+void Example2();
+void Example3();
+void Example4();
+void Example5();
+
+// Extra practice 1: Write comments in each function explaining what they do
+// Extra practice 2: Create Add, Sub, Mul, and Div functions that take in two numbers and output the result
 int main()
+{
+	Example1();
+	Example2();
+	Example3();
+	Example4();
+	Example5();
+
+	return 0;
+}
+
+void Example1()
 {
 	int health = 100 + 50;
 	float mana = 50.75f - 25.25f;
@@ -16,13 +35,20 @@ int main()
 	defense++;
 	//numerator /= defense; // Cannot divide by zero!!!
 	std::cout << "Defense after overflow: " << defense << std::endl;
+}
 
+void Example2()
+{
 	const char* message = "Hello world!";	// String literal --> array of characters
 	std::string message2 = "Hello";
 	message2 += " world!";					// C++ strings (std::string) allow you to combine text
 	std::cout << message << std::endl;
 	std::cout << message2 << std::endl;
+}
 
+void Example3()
+{
+	int health = 100;
 	bool can_fight = health >= 100;
 	if (can_fight)
 	{
@@ -32,7 +58,10 @@ int main()
 	{
 		std::cout << "You must rest, warrior..." << std::endl;
 	}
+}
 
+void Example4()
+{
 	std::cout << std::endl << "Count by 1s from 0 to 9" << std::endl;
 	for (int i = 0; i < 10; i++)
 	{
@@ -59,7 +88,10 @@ int main()
 		std::cout << "Counter is " << counter << std::endl;
 	}
 	std::cout << std::endl;
+}
 
+void Example5()
+{
 	// What NOT to do (very tedious to output each string to the console individually)
 	//std::string item1 = "Sword";
 	//std::string item2 = "Shield";
@@ -84,6 +116,4 @@ int main()
 	{
 		std::cout << "Item " << i + 1 << " is a " << items[i] << std::endl;
 	}
-
-	return 0;
 }
