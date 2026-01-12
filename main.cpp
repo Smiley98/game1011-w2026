@@ -51,5 +51,13 @@ int main()
 		std::cout << "i is " << i << std::endl;
 	}
 
+	std::cout << std::endl << "Count by 1 from 9 to 0" << std::endl;
+	int counter = 10;
+	while (counter > 0)
+	{
+		counter--;
+		std::cout << "Counter is " << counter << std::endl;
+	}
+
 	return 0;
 }
