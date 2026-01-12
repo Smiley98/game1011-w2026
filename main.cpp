@@ -58,6 +58,32 @@ int main()
 		counter--;
 		std::cout << "Counter is " << counter << std::endl;
 	}
+	std::cout << std::endl;
+
+	// What NOT to do (very tedious to output each string to the console individually)
+	//std::string item1 = "Sword";
+	//std::string item2 = "Shield";
+	//std::string item3 = "Bow";
+	//std::string item4 = "Staff";
+	//std::string item5 = "Mace";
+	//
+	//std::cout << item1 << std::endl;
+	//std::cout << item2 << std::endl;
+	//std::cout << item3 << std::endl;
+	//std::cout << item4 << std::endl;
+	//std::cout << item5 << std::endl;
+
+	std::string items[5];
+	items[0] = "Sword";
+	items[1] = "Shield";
+	items[2] = "Bow";
+	items[3] = "Staff";
+	items[4] = "Mace";
+
+	for (int i = 0; i < 5; i++)
+	{
+		std::cout << "Item " << i + 1 << " is a " << items[i] << std::endl;
+	}
 
 	return 0;
 }
