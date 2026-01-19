@@ -4,12 +4,14 @@
 void Example1();
 void Example2();
 void Example3();
+void Example4();
 
 int main()
 {
 	//Example1();
 	//Example2();
-	Example3();
+	//Example3();
+	Example4();
 	return 0;
 }
 
@@ -27,6 +29,20 @@ constexpr int TEXTURE_HEIGHT = 1024;
 struct Texture
 {
 	Pixel pixels[TEXTURE_WIDTH][TEXTURE_HEIGHT];
+};
+
+struct BlockBad
+{
+	int x, y, z;
+	Texture texture;
+	// Bad because each block costs us 16 megabytes!!!!!
+};
+
+struct BlockGood
+{
+	int x, y, z;
+	Texture* texture;
+	// Good because each block only stores a 8-byte pointer to a texture!
 };
 
 class Circle
@@ -96,4 +112,25 @@ void Example3()
 	// (delete only deletes 1 element, we need to delete all 16 elements with delete[])
 	Texture* textures = new Texture[16];
 	delete[] textures;
+}
+
+void Example4()
+{
+	int block_count = 64;
+
+	// Bad way (1 x 16 megabyte texture per-lock x 64 blocks = 1 gigabyte)
+	BlockBad* blocks_bad = new BlockBad[block_count];
+	delete[] blocks_bad;
+
+	// Good way (1 x 16 megabyte texture + 64 blocks x 8-byte pointer-to texture = 16 megabytes)
+	Texture* texture = new Texture;
+	BlockGood* blocks_good = new BlockGood[block_count];
+	for (int i = 0; i < block_count; i++)
+	{
+		blocks_good[i].texture = texture;
+	}
+	delete[] blocks_good;
+	delete texture;
+
+	// Reduced memory from 1 gigabyte, to 16 megabytes by sharing memory via pointers!!!
 }
