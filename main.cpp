@@ -19,5 +19,8 @@ private:
 
 int main()
 {
+	Circle circle;
+	//circle.radius = -1.0f; <-- compiler error because radius is private (inaccessible)
+	circle.SetRadius(-1.0f);
 	return 0;
 }
