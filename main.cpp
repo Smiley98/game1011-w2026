@@ -36,15 +36,22 @@ void Example1()
 
 void Example2()
 {
+	// Declare a "pointer to an integer" named ptr, which initially points to nothing (nullptr = "nothing")
 	int* ptr = nullptr;
 	int a = 5;
 	int b = 10;
 
+	// Assign ptr to the address of a ('&' = "address-of")
 	ptr = &a;
 	std::cout << "Pointer address at a: " << ptr << std::endl;
 	std::cout << "Pointer value at a: " << *ptr << std::endl;
+	// *ptr means "dereference", which looks up the value in the address stored by the pointer
+	// In this case, we get the value 5 because ptr stores the address of a
 
 	ptr = &b;
 	std::cout << "Pointer address at b: " << ptr << std::endl;
 	std::cout << "Pointer value at b: " << *ptr << std::endl;
+	// Change the address of ptr to be that of b.
+	// Now we see b's address in the console when we output the pointer itself,
+	// and we see the value of b (10) when we dereference our pointer!
 }
