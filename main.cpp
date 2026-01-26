@@ -1,136 +1,35 @@
 #include <iostream>
-#include <cmath>
 
-void Example1();
-void Example2();
-void Example3();
-void Example4();
-
-int main()
-{
-	//Example1();
-	//Example2();
-	//Example3();
-	Example4();
-	return 0;
-}
-
-struct Pixel
-{
-	float r;
-	float g;
-	float b;
-	float a;
-};
-
-constexpr int TEXTURE_WIDTH = 1024;
-constexpr int TEXTURE_HEIGHT = 1024;
-
-struct Texture
-{
-	Pixel pixels[TEXTURE_WIDTH][TEXTURE_HEIGHT];
-};
-
-struct BlockBad
-{
-	int x, y, z;
-	Texture texture;
-	// Bad because each block costs us 16 megabytes!!!!!
-};
-
-struct BlockGood
-{
-	int x, y, z;
-	Texture* texture;
-	// Good because each block only stores a 8-byte pointer to a texture!
-};
-
-class Circle
+class Object
 {
 public:
-	float GetRadius() { return radius; }
-	void SetRadius(float r)
+	Object()
 	{
-		// Setters only make sense if they do some form of validation.
-		// In this case, we ensure that our circle's radius cannot be negative!
-		r = std::max(r, 0.0f);
-		radius = r;
+		std::cout << "Object created" << std::endl;
+	}
+
+	~Object()
+	{
+		std::cout << "Object destroyed" << std::endl;
 	}
 
 private:
-	float radius;
 };
+
+void Example1();
+
+int main()
+{
+	Example1();
+	return 0;
+}
 
 void Example1()
 {
-	Circle circle;
-	//circle.radius = -1.0f; <-- compiler error because radius is private (inaccessible)
-	circle.SetRadius(-1.0f);
-}
+	// Heap-allocated objects get destroyed "at-will", meaning whenever we call operator delete / delete[]
+	Object* obj1 = new Object[4];	// Prints "Object created"   x4
+	delete[] obj1;					// Prints "Object destroyed" x4
 
-void Example2()
-{
-	// Declare a "pointer to an integer" named ptr, which initially points to nothing (nullptr = "nothing")
-	int* ptr = nullptr;
-	int a = 5;
-	int b = 10;
-
-	// Assign ptr to the address of a ('&' = "address-of")
-	ptr = &a;
-	std::cout << "Pointer address at a: " << ptr << std::endl;
-	std::cout << "Pointer value at a: " << *ptr << std::endl;
-	// *ptr means "dereference", which looks up the value in the address stored by the pointer
-	// In this case, we get the value 5 because ptr stores the address of a
-
-	ptr = &b;
-	std::cout << "Pointer address at b: " << ptr << std::endl;
-	std::cout << "Pointer value at b: " << *ptr << std::endl;
-	// Change the address of ptr to be that of b.
-	// Now we see b's address in the console when we output the pointer itself,
-	// and we see the value of b (10) when we dereference our pointer!
-}
-
-void Example3()
-{
-	int sz_pixel = sizeof(Pixel);
-	int sz_texture = sizeof(Texture);// sz_pixel* TEXTURE_WIDTH* TEXTURE_HEIGHT;
-	int sz_texture_kb = sz_texture / 1024;		// 1024 bytes in 1 kilobyte
-	int sz_texture_mb = sz_texture_kb / 1024;	// 1024 kilobytes in 1 megabyte
-	//Texture texture;
-	// The above line of code allocates our texture on the "stack" (and crashes our program)
-	// Stack memory is managed by the compiler. Its size must be known at compile-time
-	// Generally, its only about 1 megabyte (but we need 16 megabytes to allocate a texture)!!!
-
-	// By using the "new operator", we allocate our texture's memory on the "heap".
-	// The heap allows us to use as much memory as our computer has (16 gigabytes in my case)!
-	// However, we must now manage this memory ourselves.
-	Texture* texture = new Texture;
-	delete texture;
-
-	// If we allocate an array of textures, we use scalar-new "new[]"
-	// and we must call the corresponding scalar-delete "delete[]"
-	// (delete only deletes 1 element, we need to delete all 16 elements with delete[])
-	Texture* textures = new Texture[16];
-	delete[] textures;
-}
-
-void Example4()
-{
-	int block_count = 64;
-
-	// Bad way (1 x 16 megabyte texture per-lock x 64 blocks = 1 gigabyte)
-	BlockBad* blocks_bad = new BlockBad[block_count];
-	delete[] blocks_bad;
-
-	// Good way (1 x 16 megabyte texture + 64 blocks x 8-byte pointer-to texture = 16 megabytes)
-	Texture* texture = new Texture;
-	BlockGood* blocks_good = new BlockGood[block_count];
-	for (int i = 0; i < block_count; i++)
-	{
-		blocks_good[i].texture = texture;
-	}
-	delete[] blocks_good;
-	delete texture;
-
-	// Reduced memory from 1 gigabyte, to 16 megabytes by sharing memory via pointers!!!
-}
+	// Stack-allocated objects get destroyed when they go out of scope (in this case, after the Example1() function exits)
+	Object obj2[3];					// Prints "Object created"   x3
+}									// Prints "Object destroyed" x3
