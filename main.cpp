@@ -69,12 +69,14 @@ Test MakeTest(std::string name, int number);
 void Example1();
 void Example2();
 void Example3();
+void Example4();
 
 int main()
 {
-	Example1();
+	//Example1();
 	//Example2();
-	Example3();
+	//Example3();
+	Example4();
 	return 0;
 }
 
@@ -111,4 +113,30 @@ Test MakeTest(std::string name, int number)
 	test.number = number;
 	test.name = name;
 	return test;
+}
+
+class Data
+{
+public:
+
+	int GetNumber()
+	{
+		return number;
+	}
+
+	void SetNumber(int number)
+	{
+		// "The current Data object's number member is assigned to number the function argument"
+		this->number = number;
+	}
+
+private:
+	int number;
+};
+
+void Example4()
+{
+	Data data;
+	data.SetNumber(10);
+	int n = data.GetNumber();
 }
