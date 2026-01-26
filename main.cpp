@@ -3,15 +3,25 @@
 
 class Object
 {
+	struct Pixel
+	{
+		int r;
+		int g;
+		int b;
+		int a;
+	};
+
 public:
 	Object()
 	{
 		count++;
 		std::cout << "Object " << count << " created" << std::endl;
+		pixels = new Pixel[512 * 512];
 	}
 
 	~Object()
 	{
+		delete[] pixels;
 		std::cout << "Object " << count << " destroyed" << std::endl;
 		count--;
 	}
@@ -20,6 +30,8 @@ private:
 	// "static" member-variables are shared between all object instances.
 	// In this case, its what allows us to keep track of how many objects have been created/destroyed!
 	static int count;
+
+	Pixel* pixels;
 };
 
 int Object::count = 0;
@@ -60,7 +72,7 @@ void Example3();
 
 int main()
 {
-	//Example1();
+	Example1();
 	//Example2();
 	Example3();
 	return 0;
