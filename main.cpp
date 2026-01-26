@@ -5,16 +5,23 @@ class Object
 public:
 	Object()
 	{
-		std::cout << "Object created" << std::endl;
+		count++;
+		std::cout << "Object " << count << " created" << std::endl;
 	}
 
 	~Object()
 	{
-		std::cout << "Object destroyed" << std::endl;
+		std::cout << "Object " << count << " destroyed" << std::endl;
+		count--;
 	}
 
 private:
+	// "static" member-variables are shared between all object instances.
+	// In this case, its what allows us to keep track of how many objects have been created/destroyed!
+	static int count;
 };
+
+int Object::count = 0;
 
 void Example1();
 
