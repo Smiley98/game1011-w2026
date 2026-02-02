@@ -1,34 +1,56 @@
-float Add(float a, float b)
+struct Vector2
 {
-	return a + b;
+	float x;
+	float y;
+};
+
+Vector2 operator+(Vector2 a, Vector2 b)
+{
+	Vector2 v;
+	v.x = a.x + b.x;
+	v.y = a.y + b.y;
+	return v;
 }
 
-float Sub(float a, float b)
+Vector2 operator-(Vector2 a, Vector2 b)
 {
-	return a - b;
+	Vector2 v;
+	v.x = a.x - b.x;
+	v.y = a.y - b.y;
+	return v;
 }
 
-int Add(int a, int b)
+Vector2 operator*(Vector2 v, float s)
 {
-	return a + b;
+	Vector2 r;
+	r.x = v.x * s;
+	r.y = v.y * s;
+	return r;
 }
 
-int Sub(int a, int b)
+Vector2 operator/(Vector2 v, float s)
 {
-	return a - b;
+	Vector2 r;
+	r.x = v.x / s;
+	r.y = v.y / s;
+	return r;
 }
 
 int main()
 {
-	float a1 = 5.0f;
-	float b1 = 10.0f;
-	float c1 = Add(a1, b1);
-	float d1 = Sub(a1, b1);
+	// The compiler knows how to do + - * / for primitive (built-in) types
+	//float a = 5.0f;
+	//float b = 10.0f;
+	//float c = a + b;
 
-	int a2 = 5;
-	int b2 = 10;
-	int c2 = Add(a2, b2);
-	int d2 = Sub(a2, b2);
+	// However, for user-defined types, we must overload said operators to tell the compiler what to do!
+	Vector2 v1{ 1.0f, 2.0f };
+	Vector2 v2{ 3.0f, 4.0f };
+	Vector2 v3 = v1 + v2;
+	Vector2 v4 = v1 - v2;
+
+	Vector2 v5 = v1 * 10.0f;
+	Vector2 v6 = v1 / 10.0f;
 
 	return 0;
 }
