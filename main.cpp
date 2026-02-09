@@ -8,9 +8,9 @@ void Example4();
 
 int main()
 {
-	Example1();
-	Example2();
-	Example3();
+	//Example1();
+	//Example2();
+	//Example3();
 	Example4();
 	return 0;
 }
@@ -133,10 +133,16 @@ void Example3()
 
 struct Base
 {
-	Base()
+	Base(int priv, int prot)
 	{
-		private_value = 5;
-		protected_value = 15;
+		private_value = priv;
+		protected_value = prot;
+		std::cout << "Base constructor" << std::endl;
+	}
+
+	~Base()
+	{
+		std::cout << "Base destructor" << std::endl;
 	}
 
 	int public_value;
@@ -151,14 +157,41 @@ private:
 
 struct Derived : public Base
 {
+	// We can re-use code in the base class -- since the constructor assigns values,
+	// no sense in re-writing said logic in the derived constructor!
+	Derived(int priv, int prot) : Base(priv, prot)
+	{
+		std::cout << "Derived constructor" << std::endl;
+	}
+
+	~Derived()
+	{
+		std::cout << "Derived destructor" << std::endl;
+	}
+
 	void SetProtectedValue(int v) { protected_value = v; }
 };
 
 void Example4()
 {
-	Derived obj;
+	Derived obj(5, 15);
 	obj.public_value = 10;
 	obj.SetProtectedValue(20);
 	//std::cout << obj.protected_value << std::endl;	// inaccessible
 	//std::cout << obj.private_value << std::endl;		// inaccessible
 }
+
+// You NEVER need protected or private inheritance, all it does is make things needlessly complicated...
+struct A
+{
+public:
+	int pub;
+protected:
+	int prot;
+private:
+	int priv;
+};
+
+struct X : public A {};		// pub remains public, prot remains protected, priv remains private
+struct Y : protected A {};	// pub becomes protected, prot remains protected, priv remains private
+struct Z : private A {};	// pub becomes private, prot becomes private, priv remains private
