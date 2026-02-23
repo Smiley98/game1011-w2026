@@ -3,7 +3,7 @@
 
 struct Character
 {
-	std::string Greet()
+	virtual std::string Greet()
 	{
 		return "Default greeting";
 	}
@@ -11,7 +11,7 @@ struct Character
 
 struct Player : public Character
 {
-	std::string Greet()
+	std::string Greet() override
 	{
 		return "Hello there kind traveller :)";
 	}
@@ -19,7 +19,7 @@ struct Player : public Character
 
 struct Enemy : public Character
 {
-	std::string Greet()
+	std::string Greet() override
 	{
 		return "You won't stand a chance!";
 	}
