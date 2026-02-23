@@ -73,15 +73,18 @@ int main()
 	{
 		// % 2 gives us random numbers between 0 and 1 (% 5 would give between 0 and 4)
 		int n = rand() % 2;
-		std::cout << n << std::endl;
+
+		if (n == 0)
+			characters[i] = new Player;
+		else
+			characters[i] = new Enemy;
 	}
 
-	//for (int i = 0; i < character_count; i++)
-	//{
-	//	Character& character = *characters[i];
-	//	//characters[i]->Greet();
-	//	std::cout << character.TypeName() << ": " << character.Greet() << std::endl;
-	//}
+	for (int i = 0; i < character_count; i++)
+	{
+		Character& character = *characters[i];
+		std::cout << character.TypeName() << ": " << character.Greet() << std::endl;
+	}
 
 	return 0;
 }
