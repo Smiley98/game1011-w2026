@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <cstdlib> //C standard library --> gives us access to the rand() function for random number generation!
 
 enum CharacterType
 {
@@ -61,19 +62,26 @@ struct Enemy : public Character
 
 int main()
 {
-	Player player;
-	Enemy enemy;
+	// srand "seeds" our random number generator, meaning it bases RNG on a unique number so our program randomizes differently each run!
+	// We know time (second since 1970) to be an ever-changing unique number, which makes it great for seeding!
+	// Note: you might NOT want to seed your rand function when testing. Determinism makes testing easier.
+	srand(time(0));
 
-	Character* characters[2] = { &player, &enemy };
-	for (int i = 0; i < 2; i++)
+	const int character_count = 10;
+	Character* characters[character_count];
+	for (int i = 0; i < character_count; i++)
 	{
-		Character& character = *characters[i];
-		//characters[i]->Greet();
-		std::cout << character.TypeName() << ": " << character.Greet() << std::endl;
+		// % 2 gives us random numbers between 0 and 1 (% 5 would give between 0 and 4)
+		int n = rand() % 2;
+		std::cout << n << std::endl;
 	}
 
-	//std::cout << player.Greet() << std::endl;
-	//std::cout << enemy.Greet() << std::endl;
+	//for (int i = 0; i < character_count; i++)
+	//{
+	//	Character& character = *characters[i];
+	//	//characters[i]->Greet();
+	//	std::cout << character.TypeName() << ": " << character.Greet() << std::endl;
+	//}
 
 	return 0;
 }
