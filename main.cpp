@@ -30,8 +30,16 @@ int main()
 	Player player;
 	Enemy enemy;
 
-	std::cout << player.Greet() << std::endl;
-	std::cout << enemy.Greet() << std::endl;
+	Character* characters[2] = { &player, &enemy };
+	for (int i = 0; i < 2; i++)
+	{
+		Character& character = *characters[i];
+		//characters[i]->Greet();
+		std::cout << character.Greet() << std::endl;
+	}
+
+	//std::cout << player.Greet() << std::endl;
+	//std::cout << enemy.Greet() << std::endl;
 
 	return 0;
 }
