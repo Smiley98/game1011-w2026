@@ -3,6 +3,7 @@
 
 struct Character
 {
+	// "virtual" means that if the same function exists in a derived class, the compiler will run that funciton instead!
 	virtual std::string Greet()
 	{
 		return "Default greeting";
@@ -11,6 +12,7 @@ struct Character
 
 struct Player : public Character
 {
+	// "override" is not required, but it makes the code easier to read (as a reminder its a virtual method)
 	std::string Greet() override
 	{
 		return "Hello there kind traveller :)";
@@ -19,6 +21,7 @@ struct Player : public Character
 
 struct Enemy : public Character
 {
+	// "override" is not required, but it makes the code easier to read (as a reminder its a virtual method)
 	std::string Greet() override
 	{
 		return "You won't stand a chance!";
