@@ -1,26 +1,22 @@
-//int Square(int n)
-//{
-//	return n * n;
-//}
-//
-//float Square(float n)
-//{
-//	return n * n;
-//}
+template<typename T>
+T Square(T n);
 
-// "Dog" is the name of our generic type;
-// "The Square function outputs a generic number given a generic number input"
-// Just like regular variables, your generic variable can be named whatever you like
-// (Dog, in my case)!
-template<typename Dog>
-Dog Square(Dog n)
+// This wouldn't compile if we didn't forward-declare Square (top-down still)
+void Test()
 {
-	return n * n;
+	int a = Square(2);
 }
 
 int main()
 {
+	Test();
 	int a = Square(2);
 	float b = Square(2.5f);
 	return 0;
+}
+
+template<typename T>
+T Square(T n)
+{
+	return n * n;
 }
