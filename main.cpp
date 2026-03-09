@@ -86,19 +86,24 @@ private:
 	int capacity = 0;
 };
 
-// You can inheret from templated classes the same way you can inherit from regular classes!
-
-class IntArray : public Array<int>
+template<typename T>
+class SearchableArray : public Array<T>
 {
 public:
-
+	int Find(T value)
+	{
+		// TODO:
+		// Modify this function to loop through all elements of the array (data).
+		// If value matches the current index, return the current index.
+		// Otherwise, returning -1 indicates that the desired value was not found.
+		// Be sure to test your code by creating this data-structure and calling the Find function within one of the examples!
+		return -1;
+	}
 };
 
-class FloatArray : public Array<float>
-{
-public:
-
-};
+// Extra practice #2: Create Vector2, Vector3, and Vector4 classes.
+// What happens if you need a Vector2 of int vs float vs double???
+// (Hint: its a great use-case for templates)!
 
 int main()
 {
@@ -134,8 +139,7 @@ void Example3()
 void Example4()
 {
 	{
-		//Array<int> arr;
-		IntArray arr;
+		Array<int> arr;
 
 		arr.Push(1);
 		arr.Push(2);
@@ -155,8 +159,7 @@ void Example4()
 	}
 
 	{
-		//Array<float> arr;
-		FloatArray arr;
+		Array<float> arr;
 
 		arr.Push(1.1f);
 		arr.Push(2.2f);
