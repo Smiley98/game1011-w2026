@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cassert>
 
 template<typename T>
 T Square(T n);
@@ -21,16 +22,24 @@ class Array
 {
 public:
 
+	Array()
+	{
+		size = 0;
+		capacity = 4;
+		data = new T[capacity];
+	}
+
+	~Array()
+	{
+		assert(data != nullptr);
+		delete[] data;
+		data = nullptr;
+	}
+
 	// Adds an element to the end of the array
 	void Push(T value)
 	{
-		if (data == nullptr)		// Case 1: Memory uninitialized --> allocation
-		{
-			size = 0;
-			capacity = 4;
-			data = new T[capacity];
-		}
-		else if (size == capacity)	// Case 2: No space left --> reallocation
+		if (size == capacity)
 		{
 			// 1) Double capacity
 			capacity *= 2;
@@ -62,6 +71,13 @@ public:
 	{
 		for (int i = 0; i < size; i++)
 			std::cout << "Value " << i + 1 << ": " << data[i] << std::endl;
+	}
+
+	T& operator[](int index)
+	{
+		assert(index >= 0);
+		assert(index < size);
+		return data[index];
 	}
 
 private:
@@ -111,6 +127,7 @@ void Example4()
 		arr.Push(3);
 		arr.Push(4);
 		arr.Push(5);
+		arr[-1] = 300;
 
 		// Should print 1, 2, 3, 4, 5
 		arr.Print();
