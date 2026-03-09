@@ -1,17 +1,32 @@
 template<typename T>
 T Square(T n);
 
-// This wouldn't compile if we didn't forward-declare Square (top-down still)
-void Test()
+// Must pass by reference otherwise values will be copied (swap will fail)!
+void Swap(int& a, int& b)
+{
+	int c = a;
+	a = b;
+	b = c;
+}
+
+void Example1()
 {
 	int a = Square(2);
+	float b = Square(2.5f);
+}
+
+void Example2()
+{
+	int a = 5;
+	int b = 10;
+	Swap(a, b);
 }
 
 int main()
 {
-	Test();
-	int a = Square(2);
-	float b = Square(2.5f);
+	//Example1();
+	Example2();
+	
 	return 0;
 }
 
