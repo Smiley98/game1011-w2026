@@ -86,6 +86,20 @@ private:
 	int capacity = 0;
 };
 
+// You can inheret from templated classes the same way you can inherit from regular classes!
+
+class IntArray : public Array<int>
+{
+public:
+
+};
+
+class FloatArray : public Array<float>
+{
+public:
+
+};
+
 int main()
 {
 	//Example1();
@@ -120,7 +134,8 @@ void Example3()
 void Example4()
 {
 	{
-		Array<int> arr;
+		//Array<int> arr;
+		IntArray arr;
 
 		arr.Push(1);
 		arr.Push(2);
@@ -140,7 +155,8 @@ void Example4()
 	}
 
 	{
-		Array<float> arr;
+		//Array<float> arr;
+		FloatArray arr;
 
 		arr.Push(1.1f);
 		arr.Push(2.2f);
