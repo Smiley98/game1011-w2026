@@ -41,6 +41,7 @@ void Example2()
 void Example3()
 {
 	Print3Types(1, 69.420f, "Hello <generic> world!");
+	Print3Types("Hello <generic> world!", 69.420f, 1);
 }
 
 template<typename T>
