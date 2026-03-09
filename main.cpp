@@ -20,8 +20,53 @@ class IntArray
 {
 public:
 
-private:
+	// Adds an element to the end of the array
+	void Push(int value)
+	{
+		if (data == nullptr)		// Case 1: Memory uninitialized --> allocation
+		{
+			size = 0;
+			capacity = 4;
+			data = new int[capacity];
+		}
+		else if (size == capacity)	// Case 2: No space left --> reallocation
+		{
+			// 1) Double capacity
+			capacity *= 2;
+			int* new_data = new int[capacity];
 
+			// 2) Copy old elements to new memory
+			for (int i = 0; i < size; i++)
+				new_data[i] = data[i];
+
+			// 3) Delete old memory, reassign internal pointer to new memory
+			delete[] data;
+			data = new_data;
+		}
+
+		data[size] = value;
+		size++;
+	}
+
+	// Removes the last element from the array
+	void Pop()
+	{
+		if (size > 0)
+		{
+			size--;
+		}
+	}
+
+	void Print()
+	{
+		for (int i = 0; i < size; i++)
+			std::cout << "Value " << i + 1 << ": " << data[i] << std::endl;
+	}
+
+private:
+	int* data = nullptr;
+	int size = 0;
+	int capacity = 0;
 };
 
 int main()
@@ -57,13 +102,22 @@ void Example3()
 
 void Example4()
 {
-	// This is the C# equivalent of List<int>(); (Dynamic Array)
-	std::vector<int> numbers;
-	numbers.push_back(1);
-	numbers.push_back(2);
-	numbers.push_back(3);
-	numbers.push_back(4);
-	numbers.push_back(5);
+	IntArray arr;
+
+	arr.Push(1);
+	arr.Push(2);
+	arr.Push(3);
+	arr.Push(4);
+	arr.Push(5);
+
+	// Should print 1, 2, 3, 4, 5
+	arr.Print();
+
+	arr.Pop();
+	arr.Pop();
+
+	// Should print 1, 2, 3
+	arr.Print();
 }
 
 template<typename T>
