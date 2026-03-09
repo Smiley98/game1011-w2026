@@ -3,16 +3,10 @@
 template<typename T>
 T Square(T n);
 
-void Swap(int& a, int& b)
+template<typename T>
+void Swap(T& a, T& b)
 {
-	int c = a;
-	a = b;
-	b = c;
-}
-
-void Swap(std::string& a, std::string& b)
-{
-	std::string c = a;
+	T c = a;
 	a = b;
 	b = c;
 }
