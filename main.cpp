@@ -1,10 +1,18 @@
+#include <string>
+
 template<typename T>
 T Square(T n);
 
-// Must pass by reference otherwise values will be copied (swap will fail)!
 void Swap(int& a, int& b)
 {
 	int c = a;
+	a = b;
+	b = c;
+}
+
+void Swap(std::string& a, std::string& b)
+{
+	std::string c = a;
 	a = b;
 	b = c;
 }
@@ -19,7 +27,10 @@ void Example2()
 {
 	int a = 5;
 	int b = 10;
+	std::string first = "Connor";
+	std::string last = "Smiley";
 	Swap(a, b);
+	Swap(first, last);
 }
 
 int main()
