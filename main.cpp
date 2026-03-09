@@ -16,24 +16,25 @@ void Example2();
 void Example3();
 void Example4();
 
-class IntArray
+template<typename T>
+class Array
 {
 public:
 
 	// Adds an element to the end of the array
-	void Push(int value)
+	void Push(T value)
 	{
 		if (data == nullptr)		// Case 1: Memory uninitialized --> allocation
 		{
 			size = 0;
 			capacity = 4;
-			data = new int[capacity];
+			data = new T[capacity];
 		}
 		else if (size == capacity)	// Case 2: No space left --> reallocation
 		{
 			// 1) Double capacity
 			capacity *= 2;
-			int* new_data = new int[capacity];
+			T* new_data = new T[capacity];
 
 			// 2) Copy old elements to new memory
 			for (int i = 0; i < size; i++)
@@ -64,7 +65,7 @@ public:
 	}
 
 private:
-	int* data = nullptr;
+	T* data = nullptr;
 	int size = 0;
 	int capacity = 0;
 };
@@ -102,22 +103,36 @@ void Example3()
 
 void Example4()
 {
-	IntArray arr;
+	{
+		Array<int> arr;
 
-	arr.Push(1);
-	arr.Push(2);
-	arr.Push(3);
-	arr.Push(4);
-	arr.Push(5);
+		arr.Push(1);
+		arr.Push(2);
+		arr.Push(3);
+		arr.Push(4);
+		arr.Push(5);
 
-	// Should print 1, 2, 3, 4, 5
-	arr.Print();
+		// Should print 1, 2, 3, 4, 5
+		arr.Print();
 
-	arr.Pop();
-	arr.Pop();
+		arr.Pop();
+		arr.Pop();
 
-	// Should print 1, 2, 3
-	arr.Print();
+		// Should print 1, 2, 3
+		arr.Print();
+	}
+
+	{
+		Array<float> arr;
+
+		arr.Push(1.1f);
+		arr.Push(2.2f);
+		arr.Push(3.3f);
+
+		arr.Print();
+		arr.Pop();
+		arr.Print();
+	}
 }
 
 template<typename T>
