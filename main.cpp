@@ -1,16 +1,31 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 
 int main()
 {
-	std::ofstream out_file;
-	out_file.open("./data/File.txt");
+	{
+		std::ofstream file;
+		file.open("./data/File.txt");
 
-	out_file << "Connor" << std::endl;
-	out_file << "Rochelle" << std::endl;
-	out_file << "Eliott" << std::endl;
-	out_file << "Dominic" << std::endl;
+		file << "Connor" << std::endl;
+		file << "Rochelle" << std::endl;
+		file << "Eliott" << std::endl;
+		file << "Dominic" << std::endl;
 
-	out_file.close();
+		file.close();
+	}
+
+	{
+		std::ifstream file;
+		file.open("./data/File.txt");
+
+		std::string name1, name2;
+		file >> name1;
+		file >> name2;
+
+		file.close();
+	}
+
 	return 0;
 }
