@@ -4,28 +4,36 @@
 
 int main()
 {
+	std::string names[4] =
+	{
+		"Connor", "Rochelle", "Eliott", "Dominic"
+	};
+
 	{
 		std::ofstream file;
 		file.open("./data/File.txt");
 
-		file << "Connor" << std::endl;
-		file << "Rochelle" << std::endl;
-		file << "Eliott" << std::endl;
-		file << "Dominic" << std::endl;
+		for (int i = 0; i < 4; i++)
+			file << names[i] << std::endl;
 
 		file.close();
 	}
+
+	for (int i = 0; i < 4; i++)
+		names[i].clear();
 
 	{
 		std::ifstream file;
 		file.open("./data/File.txt");
-
-		std::string name1, name2;
-		file >> name1;
-		file >> name2;
+		
+		for (int i = 0; i < 4; i++)
+			file >> names[i];
 
 		file.close();
 	}
+
+	for (int i = 0; i < 4; i++)
+		std::cout << names[i] << std::endl;
 
 	return 0;
 }
