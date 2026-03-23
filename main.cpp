@@ -7,17 +7,28 @@
 void Example1();
 void Example2();
 void Example3();
+void Example4();
 
 void SaveName(std::string file, std::string name);
 
 void SaveNames(std::string file_name, std::vector<std::string> names);
 void LoadNames(std::string file_name, std::vector<std::string>& names);
 
+struct Game
+{
+	int lives_count;
+	int achievements_count;
+
+	int health;
+	int mana;
+};
+
 int main()
 {
 	//Example1();
 	//Example2();
-	Example3();
+	//Example3();
+	Example4();
 	return 0;
 }
 
@@ -90,6 +101,33 @@ void Example3()
 	SaveName(file_name, names[1]);
 	SaveName(file_name, names[2]);
 	SaveName(file_name, names[3]);
+}
+
+void Example4()
+{
+	const std::string file_name = "./data/File.bin";
+
+	{
+		Game game;
+		game.achievements_count = 10;
+		game.lives_count = 3;
+		game.health = 100;
+		game.mana = 50;
+
+		std::ofstream file;
+		file.open(file_name, std::ios::binary);
+		file.write((char*)&game, sizeof(Game));
+		file.close();
+	}
+
+	{
+		Game game;
+		
+		std::ifstream file;
+		file.open(file_name, std::ios::binary);
+		file.read((char*)&game, sizeof(Game));
+		file.close();
+	}
 }
 
 void SaveName(std::string file_name, std::string name)
