@@ -18,13 +18,23 @@ void HopefullyNotAStackOverflow(int count)
 
 int Frequency(char c, std::string str, int pos)
 {
+	// Base case (when to end recursion)
 	if (pos == str.length())
 		return 0;
 
+	// Recursive cases (keep going until we're reached the end of the string)
 	if (str[pos] == c)
 		return 1 + Frequency(c, str, pos + 1);
 	else
 		return 0 + Frequency(c, str, pos + 1);
+}
+
+int Factorial(int n)
+{
+	if (n == 0)
+		return 1;
+	else
+		return n * Factorial(n - 1);
 }
 
 int main()
@@ -40,8 +50,8 @@ int main()
 	//char data[1024]; <-- fine cause its only 1 kilobyte
 	//char data[1024 * 1024]; <-- stack overflow because its 1 megabyte (our stack must be < 1 megabyte by default)!!!
 
-	std::string name = "Connor";
-	int count = Frequency('n', name, 0);
+	int count = Frequency('n', "Connor", 0);
+	int fact = Factorial(6);
 
 	return 0;
 }
