@@ -6,19 +6,26 @@
 
 void Example1();
 void Example2();
+void Example3();
 
-void SaveNames(std::string file, std::vector<std::string> names);
-void LoadNames(std::string file, std::vector<std::string>& names);
+void SaveName(std::string file, std::string name);
+
+void SaveNames(std::string file_name, std::vector<std::string> names);
+void LoadNames(std::string file_name, std::vector<std::string>& names);
 
 int main()
 {
 	//Example1();
-	Example2();
+	//Example2();
+	Example3();
 	return 0;
 }
 
 void Example1()
 {
+	// Note -- files "truncate" by default meaning they wipe their data when you save/load them
+	// (You must re-save ALL your data to a file even if you're adding something like a 5th name)
+
 	const std::string file_name = "./data/File.txt";
 	std::vector<std::string> names = { "Connor", "Rochelle", "Eliott", "Dominic" };
 
@@ -28,7 +35,7 @@ void Example1()
 		names[i].clear();
 
 	LoadNames(file_name, names);
-
+	
 	for (int i = 0; i < names.size(); i++)
 		std::cout << names[i] << std::endl;
 }
@@ -73,17 +80,35 @@ void Example2()
 	}
 }
 
+void Example3()
+{
+	// Note that the file no longer truncates since we're opening with ios::app
+	const std::string file_name = "./data/File.txt";
+
+	std::vector<std::string> names = { "Connor", "Rochelle", "Eliott", "Dominic" };
+	SaveName(file_name, names[0]);
+	SaveName(file_name, names[1]);
+	SaveName(file_name, names[2]);
+	SaveName(file_name, names[3]);
+}
+
+void SaveName(std::string file_name, std::string name)
+{
+	std::ofstream file;
+	file.open(file_name, std::ios::app);
+	file << name << std::endl;
+	file.close();
+}
+
 void SaveNames(std::string file_name, std::vector<std::string> names)
 {
-	{
-		std::ofstream file;
-		file.open(file_name);
+	std::ofstream file;
+	file.open(file_name);
 
-		for (int i = 0; i < names.size(); i++)
-			file << names[i] << std::endl;
+	for (int i = 0; i < names.size(); i++)
+		file << names[i] << std::endl;
 
-		file.close();
-	}
+	file.close();
 }
 
 void LoadNames(std::string file_name, std::vector<std::string>& names)
