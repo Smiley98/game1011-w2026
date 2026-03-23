@@ -37,6 +37,18 @@ int Factorial(int n)
 		return n * Factorial(n - 1);
 }
 
+int Fibonacci(int n)
+{
+	if (n <= 0)
+		return 0;	// Base case A
+
+	else if (n == 1)
+		return 1;	// Base case B
+
+	else            // Recursive case
+		return Fibonacci(n - 1) + Fibonacci(n - 2);
+}
+
 int main()
 {
 	// Call this... if you dare!
@@ -52,6 +64,7 @@ int main()
 
 	int count = Frequency('n', "Connor", 0);
 	int fact = Factorial(6);
+	int fib = Fibonacci(3);
 
 	return 0;
 }
