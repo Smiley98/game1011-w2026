@@ -10,26 +10,24 @@ struct Node
 struct List
 {
 	Node* head = nullptr;
-
+	~List();
 };
 
-void ListTraverse(List list);
+void ListTraverse(const List& list);
 void ListAdd(List& list, int value);
 void ListRemove(List& list, int value);
 void ListClear(List& list);
 
 int main()
 {
-	List list;
-	ListAdd(list, 1);
-	ListAdd(list, 2);
-	ListAdd(list, 3);
+	List* list = new List;
+	ListAdd(*list, 1);
+	ListAdd(*list, 2);
+	ListAdd(*list, 3);
 
-	std::cout << "Traversal with 3 elements:" << std::endl;
-	ListTraverse(list);
-	std::cout << "Traversal with 0 elements:" << std::endl;
-	ListClear(list);
-	ListTraverse(list);
+	ListTraverse(*list);
+	// This will call the destructor which will call our Clear function!
+	delete list;
 
 	return 0;
 }
@@ -43,7 +41,7 @@ void Traverse(Node* node)
 	}
 }
 
-void ListTraverse(List list)
+void ListTraverse(const List& list)
 {
 	Traverse(list.head);
 }
@@ -77,6 +75,8 @@ void ListRemove(List& list, int value)
 
 void ListClear(List& list)
 {
+	std::cout << "Clear called" << std::endl;
+
 	Node* temp = list.head;
 	while (temp != nullptr)
 	{
@@ -89,4 +89,9 @@ void ListClear(List& list)
 	// Must nullify head otherwise calling subsequent operations such as Add & Remove will break!!!
 	// (Deleting a pointer does not nullify said pointer)
 	list.head = nullptr;
+}
+
+List::~List()
+{
+	ListClear(*this);
 }
