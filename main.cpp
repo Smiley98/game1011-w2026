@@ -18,17 +18,16 @@ void ListAdd(List& list, int value);
 void ListRemove(List& list, int value);
 void ListClear(List& list);
 
+// TODO next class -- implement sorted add, and cover STL list
+// (Also upgrade traverse to use funciton pointers, and make list generic)!
 int main()
 {
-	List* list = new List;
-	ListAdd(*list, 1);
-	ListAdd(*list, 2);
-	ListAdd(*list, 3);
-
-	ListTraverse(*list);
-	// This will call the destructor which will call our Clear function!
-	delete list;
-
+	List list;
+	ListAdd(list, 1);
+	ListAdd(list, 2);
+	ListAdd(list, 3);
+	ListRemove(list, 2);
+	ListTraverse(list);
 	return 0;
 }
 
@@ -70,7 +69,35 @@ void ListAdd(List& list, int value)
 
 void ListRemove(List& list, int value)
 {
+	// Case 0 - List is empty, therefore there's nothing to remove
+	if (list.head == nullptr)
+		return;
 
+	// Case 1 - Head is the node we want to remove. Perform same logic as ListClear (store curr, point to next, delete curr)
+	if (list.head->value == value)
+	{
+		Node* curr = list.head;
+		list.head = list.head->next;
+		delete curr;
+	}
+	else
+	{
+		Node* curr = list.head, *prev = nullptr;
+		
+		// Search until we're pointing to the element we want to remove
+		while (curr != nullptr && curr->value != value)
+		{
+			prev = curr;
+			curr = curr->next;
+		}
+
+		// If our search was successful, delete the node and update the pointer chain
+		if (curr != nullptr)
+		{
+			prev->next = curr->next;
+			delete curr;
+		}
+	}
 }
 
 void ListClear(List& list)
