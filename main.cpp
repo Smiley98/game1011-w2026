@@ -10,11 +10,13 @@ struct Node
 struct List
 {
 	Node* head = nullptr;
+
 };
 
 void ListTraverse(List list);
 void ListAdd(List& list, int value);
 void ListRemove(List& list, int value);
+void ListClear(List& list);
 
 int main()
 {
@@ -23,6 +25,10 @@ int main()
 	ListAdd(list, 2);
 	ListAdd(list, 3);
 
+	std::cout << "Traversal with 3 elements:" << std::endl;
+	ListTraverse(list);
+	std::cout << "Traversal with 0 elements:" << std::endl;
+	ListClear(list);
 	ListTraverse(list);
 
 	return 0;
@@ -64,7 +70,23 @@ void ListAdd(List& list, int value)
 	}
 }
 
-void ListRemove(List & list, int value)
+void ListRemove(List& list, int value)
 {
 
+}
+
+void ListClear(List& list)
+{
+	Node* temp = list.head;
+	while (temp != nullptr)
+	{
+		// Store additional garbage pointer so we can advance temp while still keeping track of the previous node to delete!
+		Node* garbage = temp;
+		temp = temp->next;
+		delete garbage;
+	}
+
+	// Must nullify head otherwise calling subsequent operations such as Add & Remove will break!!!
+	// (Deleting a pointer does not nullify said pointer)
+	list.head = nullptr;
 }
