@@ -7,9 +7,26 @@ struct Node
 	Node* next = nullptr;
 };
 
-int main()
+struct List
 {
 	Node* head = nullptr;
+};
+
+void Traverse(Node* node)
+{
+	if (node != nullptr)
+	{
+		std::cout << "Value: " << node->value << std::endl;
+		Traverse(node->next);
+	}
+}
+
+// Iterative traversal. Using recursive traversal to review recursion
+void Travere2(List list);
+
+int main()
+{
+	List list;
 
 	Node* a = new Node;
 	Node* b = new Node;
@@ -23,14 +40,19 @@ int main()
 	b->next = c;
 	c->next = nullptr;
 
-	head = a;
+	list.head = a;
 
-	Node* temp = head;
+	Traverse(list.head);
+
+	return 0;
+}
+
+void Travere2(List list)
+{
+	Node* temp = list.head;
 	while (temp != nullptr)
 	{
 		std::cout << "Value: " << temp->value << std::endl;
 		temp = temp->next;
 	}
-
-	return 0;
 }
