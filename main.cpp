@@ -13,7 +13,9 @@ void StackForEach(Stack& stack, StackFunc func);
 
 void StackPush(Stack& stack, int value);
 int StackPop(Stack& stack);
+
 bool StackIsEmpty(const Stack& stack);
+bool StackIsFull(const Stack& stack);
 
 void FuncPrint(int value)
 {
@@ -34,13 +36,28 @@ int main()
 	StackPush(stack, 14);
 	StackPush(stack, 16);
 
-	StackPush(stack, 16);
-
+	// Test stack-full assert
+	//StackPush(stack, 18);
 	StackForEach(stack, FuncPrint);
 
 	StackPop(stack);
 	StackPop(stack);
+	StackPop(stack);
+	StackPop(stack);
 
+	StackPop(stack);
+	StackPop(stack);
+	StackPop(stack);
+	StackPop(stack);
+
+	// Test stack-empty assert
+	//StackPop(stack);
+	StackForEach(stack, FuncPrint);
+
+	StackPush(stack, 2);
+	StackPush(stack, 4);
+	StackPush(stack, 6);
+	StackPush(stack, 8);
 	StackForEach(stack, FuncPrint);
 
 	return 0;
@@ -54,13 +71,14 @@ void StackForEach(Stack& stack, StackFunc func)
 
 void StackPush(Stack& stack, int value)
 {
+	assert(!StackIsFull(stack));
 	stack.top++;
-	int top = stack.top;
-	stack.values[top] = value;
+	stack.values[stack.top] = value;
 }
 
 int StackPop(Stack& stack)
 {
+	assert(!StackIsEmpty(stack));
 	int top = stack.values[stack.top];
 	stack.top--;
 	return top;
@@ -69,4 +87,9 @@ int StackPop(Stack& stack)
 bool StackIsEmpty(const Stack& stack)
 {
 	return stack.top < 0;
+}
+
+bool StackIsFull(const Stack& stack)
+{
+	return stack.top >= stack.capacity - 1;
 }
