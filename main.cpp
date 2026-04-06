@@ -18,6 +18,8 @@ void ListAdd(List& list, int value);
 void ListRemove(List& list, int value);
 void ListClear(List& list);
 
+void FunctionPointerExample();
+
 // TODO next class -- implement sorted add, and cover STL list
 // (Also upgrade traverse to use funciton pointers, and make list generic)!
 int main()
@@ -28,6 +30,8 @@ int main()
 	ListAdd(list, 3);
 	ListRemove(list, 2);
 	ListTraverse(list);
+
+	FunctionPointerExample();
 	return 0;
 }
 
@@ -35,6 +39,7 @@ void Traverse(Node* node)
 {
 	if (node != nullptr)
 	{
+		node->value *= 2;
 		std::cout << "Value: " << node->value << std::endl;
 		Traverse(node->next);
 	}
@@ -121,4 +126,45 @@ void ListClear(List& list)
 List::~List()
 {
 	ListClear(*this);
+}
+
+using MathOp = int(*)(int a, int b);
+
+int Add(int a, int b)
+{
+	return a + b;
+}
+
+int Sub(int a, int b)
+{
+	return a - b;
+}
+
+int Mul(int a, int b)
+{
+	return a * b;
+}
+
+int Div(int a, int b)
+{
+	return a / b;
+}
+
+void FunctionPointerExample()
+{
+	MathOp op = nullptr;
+
+	op = Add;
+	int a = op(1, 2);
+
+	op = Sub;
+	int b = op(1, 2);
+
+	op = Mul;
+	int c = op(1, 2);
+
+	op = Div;
+	int d = op(1, 2);
+
+	op = nullptr;
 }
