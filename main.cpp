@@ -18,46 +18,53 @@ struct List
 template<typename T>
 using NodeFunc = void(Node<T>* node);
 
-//template<typename T>
-//void ListTraverse(const List<T>& list, NodeFunc<T> func);
-//
-//template<typename T>
-//void ListAdd(List<T>& list, int value);
-//
-//template<typename T>
-//void ListRemove(List<T>& list, int value);
-//
-//template<typename T>
-//void ListClear(List<T>& list);
+template<typename T>
+void ListTraverse(const List<T>& list, NodeFunc<T> func);
+
+template<typename T>
+void ListAdd(List<T>& list, int value);
+
+template<typename T>
+void ListRemove(List<T>& list, int value);
+
+template<typename T>
+void ListClear(List<T>& list);
+
+template<typename T>
+void NodeTraverse(Node<T>* node, NodeFunc<T> func);
+
+template<typename T>
+void NodePrint(Node<T>* node);
+
+template<typename T>
+void NodeDouble(Node<T>* node);
+
+template<typename T>
+void NodeTriple(Node<T>* node);
 
 void FunctionPointerExample();
 
-template<typename T>
-void NodePrint(Node<T>* node)
+int main()
 {
-	std::cout << "Value: " << node->value << std::endl;
-}
+	List<int> list;
+	ListAdd(list, 1);
+	ListAdd(list, 2);
+	ListAdd(list, 3);
+	//ListRemove(list, 2);
 
-template<typename T>
-void NodeDouble(Node<T>* node)
-{
-	node->value *= 2;
-}
+	std::cout << "Values x1:\n";
+	ListTraverse<int>(list, NodePrint);
 
-template<typename T>
-void NodeTriple(Node<T>* node)
-{
-	node->value *= 3;
-}
+	std::cout << "Values x2:\n";
+	ListTraverse(list, NodeDouble);
+	ListTraverse(list, NodePrint);
 
-template<typename T>
-void NodeTraverse(Node<T>* node, NodeFunc<T> func)
-{
-	if (node != nullptr)
-	{
-		func(node);
-		NodeTraverse(node->next, func);
-	}
+	std::cout << "Values x6:\n";
+	ListTraverse(list, NodeTriple);
+	ListTraverse(list, NodePrint);
+
+	FunctionPointerExample();
+	return 0;
 }
 
 template<typename T>
@@ -148,6 +155,34 @@ List<T>::~List()
 	ListClear(*this);
 }
 
+template<typename T>
+void NodeTraverse(Node<T>* node, NodeFunc<T> func)
+{
+	if (node != nullptr)
+	{
+		func(node);
+		NodeTraverse(node->next, func);
+	}
+}
+
+template<typename T>
+void NodePrint(Node<T>* node)
+{
+	std::cout << "Value: " << node->value << std::endl;
+}
+
+template<typename T>
+void NodeDouble(Node<T>* node)
+{
+	node->value *= 2;
+}
+
+template<typename T>
+void NodeTriple(Node<T>* node)
+{
+	node->value *= 3;
+}
+
 using MathOp = int(*)(int a, int b);
 
 int Add(int a, int b)
@@ -187,27 +222,4 @@ void FunctionPointerExample()
 	int d = op(1, 2);
 
 	op = nullptr;
-}
-
-int main()
-{
-	List<int> list;
-	ListAdd(list, 1);
-	ListAdd(list, 2);
-	ListAdd(list, 3);
-	//ListRemove(list, 2);
-
-	std::cout << "Values x1:\n";
-	ListTraverse<int>(list, NodePrint);
-
-	std::cout << "Values x2:\n";
-	ListTraverse(list, NodeDouble);
-	ListTraverse(list, NodePrint);
-
-	std::cout << "Values x6:\n";
-	ListTraverse(list, NodeTriple);
-	ListTraverse(list, NodePrint);
-
-	FunctionPointerExample();
-	return 0;
 }
