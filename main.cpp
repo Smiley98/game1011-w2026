@@ -13,12 +13,29 @@ struct List
 	~List();
 };
 
-void ListTraverse(const List& list);
+using ListFunc = void(Node* node);
+
+void ListTraverse(const List& list, ListFunc func);
 void ListAdd(List& list, int value);
 void ListRemove(List& list, int value);
 void ListClear(List& list);
 
 void FunctionPointerExample();
+
+void NodePrint(Node* node)
+{
+	std::cout << "Value: " << node->value << std::endl;
+}
+
+void NodeDouble(Node* node)
+{
+	node->value *= 2;
+}
+
+void NodeTriple(Node* node)
+{
+	node->value *= 3;
+}
 
 // TODO next class -- implement sorted add, and cover STL list
 // (Also upgrade traverse to use funciton pointers, and make list generic)!
@@ -28,26 +45,35 @@ int main()
 	ListAdd(list, 1);
 	ListAdd(list, 2);
 	ListAdd(list, 3);
-	ListRemove(list, 2);
-	ListTraverse(list);
+	//ListRemove(list, 2);
+
+	std::cout << "Values x1:\n";
+	ListTraverse(list, NodePrint);
+
+	std::cout << "Values x2:\n";
+	ListTraverse(list, NodeDouble);
+	ListTraverse(list, NodePrint);
+
+	std::cout << "Values x6:\n";
+	ListTraverse(list, NodeTriple);
+	ListTraverse(list, NodePrint);
 
 	FunctionPointerExample();
 	return 0;
 }
 
-void Traverse(Node* node)
+void Traverse(Node* node, ListFunc func)
 {
 	if (node != nullptr)
 	{
-		node->value *= 2;
-		std::cout << "Value: " << node->value << std::endl;
-		Traverse(node->next);
+		func(node);
+		Traverse(node->next, func);
 	}
 }
 
-void ListTraverse(const List& list)
+void ListTraverse(const List& list, ListFunc func)
 {
-	Traverse(list.head);
+	Traverse(list.head, func);
 }
 
 void ListAdd(List& list, int value)
