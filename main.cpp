@@ -1,104 +1,96 @@
 #include <iostream>
 #include <vector>
 
+template<typename T>
 struct Node
 {
-	int value = 0;
-	Node* next = nullptr;
+	T value = 0;
+	Node<T>* next = nullptr;
 };
 
+template<typename T>
 struct List
 {
-	Node* head = nullptr;
+	Node<T>* head = nullptr;
 	~List();
 };
 
-using ListFunc = void(Node* node);
+template<typename T>
+using NodeFunc = void(Node<T>* node);
 
-void ListTraverse(const List& list, ListFunc func);
-void ListAdd(List& list, int value);
-void ListRemove(List& list, int value);
-void ListClear(List& list);
+//template<typename T>
+//void ListTraverse(const List<T>& list, NodeFunc<T> func);
+//
+//template<typename T>
+//void ListAdd(List<T>& list, int value);
+//
+//template<typename T>
+//void ListRemove(List<T>& list, int value);
+//
+//template<typename T>
+//void ListClear(List<T>& list);
 
 void FunctionPointerExample();
 
-void NodePrint(Node* node)
+template<typename T>
+void NodePrint(Node<T>* node)
 {
 	std::cout << "Value: " << node->value << std::endl;
 }
 
-void NodeDouble(Node* node)
+template<typename T>
+void NodeDouble(Node<T>* node)
 {
 	node->value *= 2;
 }
 
-void NodeTriple(Node* node)
+template<typename T>
+void NodeTriple(Node<T>* node)
 {
 	node->value *= 3;
 }
 
-// TODO next class -- implement sorted add, and cover STL list
-// (Also upgrade traverse to use funciton pointers, and make list generic)!
-int main()
-{
-	List list;
-	ListAdd(list, 1);
-	ListAdd(list, 2);
-	ListAdd(list, 3);
-	//ListRemove(list, 2);
-
-	std::cout << "Values x1:\n";
-	ListTraverse(list, NodePrint);
-
-	std::cout << "Values x2:\n";
-	ListTraverse(list, NodeDouble);
-	ListTraverse(list, NodePrint);
-
-	std::cout << "Values x6:\n";
-	ListTraverse(list, NodeTriple);
-	ListTraverse(list, NodePrint);
-
-	FunctionPointerExample();
-	return 0;
-}
-
-void Traverse(Node* node, ListFunc func)
+template<typename T>
+void NodeTraverse(Node<T>* node, NodeFunc<T> func)
 {
 	if (node != nullptr)
 	{
 		func(node);
-		Traverse(node->next, func);
+		NodeTraverse(node->next, func);
 	}
 }
 
-void ListTraverse(const List& list, ListFunc func)
+template<typename T>
+void ListTraverse(const List<T>& list, NodeFunc<T> func)
 {
-	Traverse(list.head, func);
+	NodeTraverse(list.head, func);
 }
 
-void ListAdd(List& list, int value)
+template<typename T>
+void ListAdd(List<T>& list, int value)
 {
 	if (list.head == nullptr)
 	{
-		list.head = new Node;
+		list.head = new Node<T>;
 		list.head->value = value;
 	}
 	else
 	{
 		// 1. Iterate until we reach the next pointer of the element in the list (nullptr)
-		Node* temp = list.head;
+		Node<T>* temp = list.head;
 		while (temp->next != nullptr)
 		{
 			temp = temp->next;
 		}
 
 		// 2. Allocate memory for the node we want to add, then point to it!
-		temp->next = new Node;
+		temp->next = new Node<T>;
 		temp->next->value = value;
 	}
 }
 
-void ListRemove(List& list, int value)
+template<typename T>
+void ListRemove(List<T>& list, int value)
 {
 	// Case 0 - List is empty, therefore there's nothing to remove
 	if (list.head == nullptr)
@@ -107,13 +99,13 @@ void ListRemove(List& list, int value)
 	// Case 1 - Head is the node we want to remove. Perform same logic as ListClear (store curr, point to next, delete curr)
 	if (list.head->value == value)
 	{
-		Node* curr = list.head;
+		Node<T>* curr = list.head;
 		list.head = list.head->next;
 		delete curr;
 	}
 	else
 	{
-		Node* curr = list.head, *prev = nullptr;
+		Node<T>* curr = list.head, *prev = nullptr;
 		
 		// Search until we're pointing to the element we want to remove
 		while (curr != nullptr && curr->value != value)
@@ -131,15 +123,16 @@ void ListRemove(List& list, int value)
 	}
 }
 
-void ListClear(List& list)
+template<typename T>
+void ListClear(List<T>& list)
 {
 	std::cout << "Clear called" << std::endl;
 
-	Node* temp = list.head;
+	Node<T>* temp = list.head;
 	while (temp != nullptr)
 	{
 		// Store additional garbage pointer so we can advance temp while still keeping track of the previous node to delete!
-		Node* garbage = temp;
+		Node<T>* garbage = temp;
 		temp = temp->next;
 		delete garbage;
 	}
@@ -149,7 +142,8 @@ void ListClear(List& list)
 	list.head = nullptr;
 }
 
-List::~List()
+template<typename T>
+List<T>::~List()
 {
 	ListClear(*this);
 }
@@ -193,4 +187,27 @@ void FunctionPointerExample()
 	int d = op(1, 2);
 
 	op = nullptr;
+}
+
+int main()
+{
+	List<int> list;
+	ListAdd(list, 1);
+	ListAdd(list, 2);
+	ListAdd(list, 3);
+	//ListRemove(list, 2);
+
+	std::cout << "Values x1:\n";
+	ListTraverse<int>(list, NodePrint);
+
+	std::cout << "Values x2:\n";
+	ListTraverse(list, NodeDouble);
+	ListTraverse(list, NodePrint);
+
+	std::cout << "Values x6:\n";
+	ListTraverse(list, NodeTriple);
+	ListTraverse(list, NodePrint);
+
+	FunctionPointerExample();
+	return 0;
 }
