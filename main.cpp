@@ -1,3 +1,5 @@
+#include <iostream>
+
 struct Queue
 {
 	const int capacity = 8;
@@ -5,6 +7,18 @@ struct Queue
 	int front = 0;
 	int back = 0;
 };
+
+using QueueFunc = void(*)(int& value);
+void QueueForEach(Queue& queue, QueueFunc func)
+{
+	// Copy front so we don't change queue's actual front-index
+	int front = queue.front;
+	while (front != queue.back)
+	{
+		func(queue.values[front]);
+		++front %= queue.capacity;
+	}
+}
 
 // Add to the back of the queue
 void QueuePush(Queue& queue, int value)
@@ -29,6 +43,11 @@ int& QueueBack(Queue& queue)
 	return queue.values[queue.back];
 }
 
+void Print(int& value)
+{
+	std::cout << "Value: " << value << std::endl;
+}
+
 int main()
 {
 	Queue queue;
@@ -47,6 +66,9 @@ int main()
 	QueuePush(queue, 6);
 	QueuePush(queue, 9);
 	// front = 1, back = 0
+
+	QueueFront(queue) = 69420;
+	QueueForEach(queue, Print);
 
 	QueuePop(queue);
 	QueuePop(queue);
