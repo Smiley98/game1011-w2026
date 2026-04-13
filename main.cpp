@@ -33,18 +33,30 @@ int main()
 {
 	Queue queue;
 
+	QueuePush(queue, 5);
+	QueuePush(queue, 10);
+	QueuePush(queue, 15);
+	QueuePush(queue, 20);
+	QueuePush(queue, 25);
+	// front = 0, back = 5
+
+	QueuePop(queue);
+	// front = 1, back = 5
+
 	QueuePush(queue, 3);
 	QueuePush(queue, 6);
 	QueuePush(queue, 9);
+	// front = 1, back = 0
 
-	int a = QueueFront(queue);
 	QueuePop(queue);
+	QueuePop(queue);
+	QueuePop(queue);
+	// front = 4, back = 0
 
-	int b = QueueFront(queue);
-	QueuePop(queue);
-
-	int c = QueueFront(queue);
-	QueuePop(queue);
+	QueuePush(queue, 2);
+	QueuePush(queue, 4);
+	QueuePush(queue, 6);
+	// front = 4, back = 3
 
 	return 0;
 }
