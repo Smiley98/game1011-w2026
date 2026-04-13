@@ -19,7 +19,10 @@ template<typename T>
 void StackPush(Stack<T>& stack, T value);
 
 template<typename T>
-int StackPop(Stack<T>& stack);
+void StackPop(Stack<T>& stack);
+
+template<typename T>
+T& StackTop(Stack<T>& stack);
 
 template<typename T>
 bool StackIsEmpty(const Stack<T>& stack);
@@ -41,6 +44,8 @@ int main()
 	StackPush(stack, 4);
 	StackPush(stack, 6);
 	StackPush(stack, 8);
+
+	StackTop(stack) = 69420;
 
 	StackPush(stack, 10);
 	StackPush(stack, 12);
@@ -95,12 +100,18 @@ void StackPush(Stack<T>& stack, T value)
 }
 
 template<typename T>
-int StackPop(Stack<T>& stack)
+void StackPop(Stack<T>& stack)
 {
 	assert(!StackIsEmpty(stack));
-	int top = stack.values[stack.top];
 	stack.top--;
-	return top;
+}
+
+template<typename T>
+T& StackTop(Stack<T>& stack)
+{
+	assert(!StackIsEmpty(stack));
+	assert(!StackIsFull(stack));
+	return stack.values[stack.top];
 }
 
 template<typename T>
