@@ -1,15 +1,19 @@
 #include <iostream>
 
+template<typename T>
 struct Queue
 {
+	T values[8]{};
 	const int capacity = 8;
-	int values[8]{};
 	int front = 0;
 	int back = 0;
 };
 
-using QueueFunc = void(*)(int& value);
-void QueueForEach(Queue& queue, QueueFunc func)
+template<typename T>
+using QueueFunc = void(*)(T& value);
+
+template<typename T>
+void QueueForEach(Queue<T>& queue, QueueFunc<T> func)
 {
 	// Copy front so we don't change queue's actual front-index
 	int front = queue.front;
@@ -21,36 +25,47 @@ void QueueForEach(Queue& queue, QueueFunc func)
 }
 
 // Add to the back of the queue
-void QueuePush(Queue& queue, int value)
+template<typename T>
+void QueuePush(Queue<T>& queue, T value)
 {
 	queue.values[queue.back] = value;
 	++queue.back %= queue.capacity;
 }
 
 // Remove from the front of our queue
-void QueuePop(Queue& queue)
+template<typename T>
+void QueuePop(Queue<T>& queue)
 {
 	++queue.front %= queue.capacity;
 }
 
-int& QueueFront(Queue& queue)
+template<typename T>
+int& QueueFront(Queue<T>& queue)
 {
 	return queue.values[queue.front];
 }
 
-int& QueueBack(Queue& queue)
+template<typename T>
+int& QueueBack(Queue<T>& queue)
 {
 	return queue.values[queue.back];
 }
 
-void Print(int& value)
+template<typename T>
+void FuncPrint(T value)
 {
 	std::cout << "Value: " << value << std::endl;
 }
 
+template<typename T>
+void FuncDouble(T& value)
+{
+	value *= 2;
+}
+
 int main()
 {
-	Queue queue;
+	Queue<int> queue;
 
 	QueuePush(queue, 5);
 	QueuePush(queue, 10);
@@ -68,7 +83,8 @@ int main()
 	// front = 1, back = 0
 
 	QueueFront(queue) = 69420;
-	QueueForEach(queue, Print);
+	QueueForEach(queue, FuncDouble);
+	QueueForEach(queue, FuncPrint);
 
 	QueuePop(queue);
 	QueuePop(queue);
