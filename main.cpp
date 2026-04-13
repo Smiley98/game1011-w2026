@@ -1,30 +1,41 @@
 #include <iostream>
 #include <cassert>
 
+template<typename T>
 struct Stack
 {
+	T values[8];
 	const int capacity = 8;
-	int values[8];
 	int top = -1;
 };
 
-using StackFunc = void(int value);
-void StackForEach(Stack& stack, StackFunc func);
+template<typename T>
+using StackFunc = void(T value);
 
-void StackPush(Stack& stack, int value);
-int StackPop(Stack& stack);
+template<typename T>
+void StackForEach(Stack<T>& stack, StackFunc<T> func);
 
-bool StackIsEmpty(const Stack& stack);
-bool StackIsFull(const Stack& stack);
+template<typename T>
+void StackPush(Stack<T>& stack, T value);
 
-void FuncPrint(int value)
+template<typename T>
+int StackPop(Stack<T>& stack);
+
+template<typename T>
+bool StackIsEmpty(const Stack<T>& stack);
+
+template<typename T>
+bool StackIsFull(const Stack<T>& stack);
+
+template<typename T>
+void FuncPrint(T value)
 {
 	std::cout << "Value: " << value << std::endl;
 }
 
 int main()
 {
-	Stack stack;
+	Stack<int> stack;
 
 	StackPush(stack, 2);
 	StackPush(stack, 4);
@@ -60,23 +71,31 @@ int main()
 	StackPush(stack, 8);
 	StackForEach(stack, FuncPrint);
 
+	StackPop(stack);
+	StackPop(stack);
+	StackPop(stack);
+	StackPop(stack);
+
 	return 0;
 }
 
-void StackForEach(Stack& stack, StackFunc func)
+template<typename T>
+void StackForEach(Stack<T>& stack, StackFunc<T> func)
 {
 	for (int i = 0; i <= stack.top; i++)
 		func(stack.values[i]);
 }
 
-void StackPush(Stack& stack, int value)
+template<typename T>
+void StackPush(Stack<T>& stack, T value)
 {
 	assert(!StackIsFull(stack));
 	stack.top++;
 	stack.values[stack.top] = value;
 }
 
-int StackPop(Stack& stack)
+template<typename T>
+int StackPop(Stack<T>& stack)
 {
 	assert(!StackIsEmpty(stack));
 	int top = stack.values[stack.top];
@@ -84,12 +103,14 @@ int StackPop(Stack& stack)
 	return top;
 }
 
-bool StackIsEmpty(const Stack& stack)
+template<typename T>
+bool StackIsEmpty(const Stack<T>& stack)
 {
 	return stack.top < 0;
 }
 
-bool StackIsFull(const Stack& stack)
+template<typename T>
+bool StackIsFull(const Stack<T>& stack)
 {
 	return stack.top >= stack.capacity - 1;
 }
