@@ -10,7 +10,7 @@ struct Stack
 };
 
 template<typename T>
-using StackFunc = void(T value);
+using StackFunc = void(T& value);
 
 template<typename T>
 void StackForEach(Stack<T>& stack, StackFunc<T> func);
@@ -36,6 +36,12 @@ void FuncPrint(T value)
 	std::cout << "Value: " << value << std::endl;
 }
 
+template<typename T>
+void FuncDouble(T& value)
+{
+	value *= 2;
+}
+
 int main()
 {
 	Stack<int> stack;
@@ -54,6 +60,7 @@ int main()
 
 	// Test stack-full assert
 	//StackPush(stack, 18);
+	StackForEach(stack, FuncDouble);
 	StackForEach(stack, FuncPrint);
 
 	StackPop(stack);
